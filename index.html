@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Your custom styles -->
+    <title>Home Page</title>
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #f8f9fa; /* Light background for the body */
+        }
+        .hero {
+            background: url('./public/images/desk-3076954.jpg') no-repeat center center/cover; 
+            height: 92vh;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative; 
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(105, 99, 99, 0.1);
+            backdrop-filter: blur(4px); 
+            z-index: 2; 
+        }
+
+        .hero h1, .hero p {
+            position: relative; /* Ensure text is above the overlay */
+            z-index: 8; /* Place text above the overlay */
+        }
+      
+        .section {
+            padding: 60px 20px;
+        }
+        #blog-posts{
+            background: url('./public/images/dark.jpg') no-repeat center center/cover; 
+            height: 92vh;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative; 
+        }
+        .blog-post {
+            margin-bottom: 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .blog-post:hover {
+            transform: scale(1.02);
+        }
+        .footer {
+            padding: 10px 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Project</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <% if (locals.user) { %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/blog/add-new">Add Blog</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Gyan
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/user/logout">LogOut</a></li>
+                    
+                  </ul>
+                </li>
+              <% } else {%>
+                <li class="nav-item">
+                  <a class="nav-link" href="/user/signup">Create Account</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/user/signin">Signin</a>
+                </li>
+                <% } %>
+              
+              
+            </ul>
+          </div>
+        </div>
+    </nav>
+    
+    
+    <% if (locals.error) { %>
+      <div class="continer mt-4">
+        <div class="alert alert-danger" role="alert">
+        <%= locals.error  %> 
+        </div>
+      </div>
+    <% } %>
+
+    <div class="hero text-dark">
+        <h1>Welcome to My Blog</h1>
+        <p>Your journey of insights and stories begins here.</p>
+    </div>
+
+    <div class="section" id="blog-posts">
+    <div class="container mt-3">
+        <h2 class="text-center mb-4">Latest Posts</h2>
+        <div class="row row-cols-4">
+            <% blogs.forEach(blog => { %>
+                <div class="col-md-4">
+                    <div class="blog-post card h-100 d-flex flex-column" style="width: 16rem;">
+                        <img src="<%= blog.coverImageURL %>" class="img-fluid card-img-top" alt="<%= blog.title %>">
+                        <div class="p-3 card-body d-flex flex-column">
+                            <h5 class="card-title flex-grow-1"><%= blog.title %></h5>
+                            <p>Short description of the blog post goes here...</p>
+                            <a href="/blog/<%= blog._id %>" class="btn btn-primary mt-auto">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+
+    <div class="section" id="about">
+        <div class="container">
+            <h2 class="text-center mb-4">About Us</h2>
+            <p class="text-center">We are passionate about sharing insights and stories. Join us on our journey as we explore various topics and engage with our community.</p>
+        </div>
+    </div>
+
+    <footer class="footer bg-dark text-light">
+        <p>&copy; 2024 My Blog. All rights reserved.</p>
+        <a href="/privacy-policy">Privacy Policy</a> | <a href="/terms-of-service">Terms of Service</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

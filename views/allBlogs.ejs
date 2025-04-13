@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Blogs</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .blog-post {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .blog-post:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      border-color: #007bff;
+    }
+
+    .card-img-top {
+      height: 150px;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      .row-cols-md-3 > * {
+        flex: 0 0 100%;
+        max-width: 80%;
+        margin: 10px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">All Blog Posts</h2>
+
+    <div class="section" id="blog-posts">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <% blogs.forEach(blog => { %>
+          <div class="col d-flex align-items-stretch">
+            <div class="blog-post card w-100">
+              <img src="<%= blog.coverImageURL %>" class="card-img-top" alt="<%= blog.title %>">
+              <div class="card-body d-flex flex-column text-center">
+                <h5 class="card-title"><%= blog.title %></h5>
+                <a href="/blog/<%= blog._id %>" class="btn btn-primary mt-auto">Read More</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-secondary">Go Back</a>
+    </div>
+  </div>
+</body>
+</html>

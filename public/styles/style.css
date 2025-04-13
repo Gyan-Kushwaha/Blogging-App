@@ -1,0 +1,62 @@
+
+body {
+    overflow-x: hidden;
+    background-color: #f8f9fa; /* Light background for the body */
+}
+.hero {
+    background: url('/images/desk-3076954.jpg') no-repeat center center/cover; 
+    height: 92vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative; 
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(105, 99, 99, 0.1);
+    backdrop-filter: blur(4px); 
+    z-index: 2; 
+}
+
+.hero h1, .hero p {
+    position: relative; /* Ensure text is above the overlay */
+    z-index: 8; /* Place text above the overlay */
+}
+
+.section {
+    padding: 60px 20px;
+}
+#blog-posts{
+    background: url('/images/dark.jpg') no-repeat center center/cover; 
+    height: 92vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative; 
+}
+.blog-post {
+    margin-bottom: 40px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+.blog-post:hover {
+    transform: scale(1.02);
+}
+.footer {
+    padding: 10px 5px;
+    text-align: center;
+}
+
+

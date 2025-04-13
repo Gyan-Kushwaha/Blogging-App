@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- ye individual blog hai  -->
+<head>
+    <%- include('./partials/head') %>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .text-center {
+            text-align: center; /* Center the text */
+        }
+        .cover-image {
+            display: block; /* Make the image a block element */
+            margin-left: auto; /* Center the image */
+            margin-right: auto; /* Center the image */
+        }
+        pre {
+            white-space: normal;
+            word-wrap: break-word;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: justify;
+        }
+        .comment-bubble {
+        position: relative;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        max-width: 600px;
+        word-wrap: break-word;
+        }
+
+        .comment-bubble:after {
+        content: '';
+        position: absolute;
+        left: -8px;
+        top: 15px;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-right-color: #f8f9fa;
+        border-left: 0;
+        margin-top: -8px;
+        margin-left: -8px;
+        }
+
+        .object-fit-cover {
+        object-fit: cover;
+        }
+
+        /* Hover effects */
+        .btn-link:hover {
+        color: #0d6efd !important;
+        }
+    </style>
+    <title>Blog</title>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-3 text-center"> <!-- Centering content -->
+        <h1><%= blog.title %></h1>
+        <img src="<%= blog.coverImageURL %>" class="cover-image" width="400px" /> <!-- Center the cover image -->
+        <pre class="mt-3" style="font-family: 'Poppins', sans-serif;"><%= blog.body %></pre>
+
+    </div>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-end align-items-center">
+          <!-- Profile Image -->
+          <img src="<%= blog.coverImageURL %>" alt="Profile Image"
+     style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 1rem;">
+
+      
+          <!-- Name with '-by' -->
+          <div>
+            -by <%= blog.createdBy.fullName %>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+
+    <div class="container mt-3 mx-5">
+        <h1>Comments (<%= comments.length %>)</h1>
+        <% if (locals.user) { %>
+            <form action="/blog/comment/<%= blog._id %>" method="post">
+                <div class="mb-3">   
+                    <input type="text" name="content" class="form-control" placeholder="Enter your comment"/>
+                    <button class="btn btn-sm btn-primary mt-2 w-25" type="submit">Add</button>
+                </div>  
+            </form> 
+        <% } %>
+        <div class="mt-3">
+            <% comments.forEach(comment => { %>
+                <div class="comment-container mb-4">
+                    <div class="d-flex align-items-start">
+                      <!-- Profile Image -->
+                      <img src="<%= blog.coverImageURL %>" alt="Profile Image"
+     style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 1rem;">
+                      
+                      <!-- Comment Content -->
+                      <div class="flex-grow-1">
+                        <div class="d-flex align-items-center mb-1">
+                          <span class="fw-semibold text-dark me-2"><%= comment.createdBy.fullName %></span>
+                          <small class="text-muted">
+                            • <%= new Date(comment.createdAt).toLocaleString('en-US', {
+                                dateStyle: 'medium',
+                                timeStyle: 'short'
+                              }) %>
+                          </small>
+                        </div>
+                        <div class="comment-bubble bg-light p-3 rounded-3">
+                          <%= comment.content %>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>             
+            <% }) %>
+        </div>
+    </div>
+
+    <%- include('./partials/script') %>
+</body>
+</html>

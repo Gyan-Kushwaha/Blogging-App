@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel='stylesheet' href='/styles/style.css' />
+    <%- include('./partials/head') %>
+    
+    <title>Home Page</title>
+    <style>
+        .blog-post {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .blog-post:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      border-color: #007bff;
+    }
+
+    .card-img-top {
+      height: 150px;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      .row-cols-md-3 > * {
+        flex: 0 0 100%;
+        max-width: 80%;
+        margin: 10px auto;
+      }
+    }
+        
+
+    </style>
+  
+</head>
+<body>
+    <%- include('./partials/nav')  %>
+    
+    <% if (locals.error) { %>
+      <div class="continer mt-4">
+        <div class="alert alert-danger" role="alert">
+        <%= locals.error  %> 
+        </div>
+      </div>
+    <% } %>
+
+    <div class="hero text-dark">
+        <h1>Welcome to My Blog</h1>
+        <p>Your journey of insights and stories begins here.</p>
+    </div>
+
+    <div class="section" id="blog-posts">
+      
+            <!-- locals.user.id==blog.id se match kre tb hi load kro aur at max 3 blogs-->
+            <% if (locals.user) { %>  <!-- Check if the user is logged in -->
+                <div class="container mt-2"> 
+                    <h2 class="text-center mb-5">Latest Posts</h2>
+                    <div class="d-flex flex-row justify-content-center gap-3"> <!-- horizontal layout with wrapping -->
+                        <% let count = 0; let found = false; %>  
+                      
+                        <% blogs.forEach(blog => { %>  
+                          <% if (count < 3 && blog.createdBy && String(blog.createdBy._id) === String(locals.user._id)) { %>  
+                            <% found = true; %>  
+                            <div class="card blog-post me-3" style="width: 20rem; max-height: 25rem;">  
+                              <img src="<%= blog.coverImageURL %>" class="img-fluid card-img-top" alt="<%= blog.title %>" style="height: 180px; object-fit: cover;">  
+                              <div class="p-2 my-3 card-body d-flex flex-column">  
+                                <h5 class="card-title flex-grow-0"><%= blog.title %></h5>  
+                                <a href="/blog/<%= blog._id %>" class="btn btn-primary mt-auto">Read More</a>  
+                              </div>  
+                            </div>  
+                            <% count++; %>  
+                          <% } %>  
+                        <% }) %>  
+                      </div>
+                      
+                
+                    <% if (!found) { %>  <!-- If no blogs found for the user -->
+                        <p class="text-center">No blogs found for your account.</p>
+                    <% } %>
+                
+                    <!-- "See More" button should be centered below all posts -->
+                    <div class="text-center mt-4"> 
+                        <a href="/blogs" class="btn" style="background-color: #070707; color: rgb(253, 252, 252);"
+                            onmouseout="this.style.backgroundColor='black'; this.style.color='white';"
+                            onmouseover="this.style.backgroundColor='white'; this.style.color='black';">
+                            See More
+                        </a>
+                    </div>
+                </div>
+                
+              
+              <% }else { %>  <!-- If no user is logged in -->
+                <div class="d-flex justify-content-center m-lg-5"> 
+                  <p class="font-weight-bold fw-bold">Please Sign In to see your blogs.</p>
+                </div>
+              <% } %>
+              
+            
+          </div>
+          
+      </div>
+  </div>
+  
+    
+
+    <div class="section" id="about">
+        <div class="container">
+            <h2 class="text-center mb-4">About Us</h2>
+            <p class="text-center">We are passionate about sharing insights and stories. Join us on our journey as we explore various topics and engage with our community.</p>
+        </div>
+    </div>
+
+    <%- include('./partials/footer') %>
+
+    <%- include('./partials/script') %>
+</body>
+</html>
