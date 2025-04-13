@@ -62,3 +62,6 @@ coverage/
 *.rej
 *.patch
 *.diff
+
+# large file 
+public/video/
